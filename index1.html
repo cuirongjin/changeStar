@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>星级评分原理--改进</title>
+  <style>
+    body {
+      margin: 0px;
+      padding: 0px;
+    }
+
+    ul,
+    li {
+      list-style: none;
+    }
+
+    .rating {
+      width: 500px;
+      height: 200px;
+      margin: 100px auto;
+    }
+
+    .rating2 {
+      width: 500px;
+      height: 200px;
+      margin: 100px 500px;
+    }
+
+    .rating-item {
+      float: left;
+      width: 100px;
+      height: 69px;
+      background: url(1.jpg) no-repeat;
+      cursor: pointer;
+    }
+  </style>
+</head>
+
+<body>
+  <ul class="rating" id="rating">
+    <li class="rating-item"></li>
+    <li class="rating-item"></li>
+    <li class="rating-item"></li>
+    <li class="rating-item"> </li>
+    <li class="rating-item"></li>
+  </ul>
+  <ul class="rating2" id="rating2">
+    <li class="rating-item"></li>
+    <li class="rating-item"></li>
+    <li class="rating-item"></li>
+    <li class="rating-item"> </li>
+    <li class="rating-item"></li>
+  </ul>
+  <script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+  <script>
+    var rating = (function () {
+      function lightOn($item,num) {
+          $item.each(function (index) {
+            if (index < num) {
+              $(this).css('background-position', '0 -66px');
+            } else {
+              $(this).css('background-position', '0  0');
+            }
+          })
+        }
+      var init = function (el, num) {
+        var $rating = $(el);
+        var $item = $rating.find('.rating-item');
+       
+        lightOn($item,num);
+        //事件委托
+        $rating.on('mouseover', '.rating-item', function () {
+          lightOn($item,$(this).index() + 1);
+        }).on('click',  '.rating-item', function () {
+          num = $(this).index() + 1;
+        }).on('mouseout', function () {
+          lightOn($item,num)
+        })
+      }
+      return {
+        init: init
+      }
+    })()
+    rating.init('.rating', 2)
+    rating.init('.rating2', 3)
+  </script>
+</body>
+
+</html>
